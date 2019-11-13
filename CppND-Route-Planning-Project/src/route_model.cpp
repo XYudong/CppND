@@ -18,7 +18,7 @@ void RouteModel::CreateNodeToRoadHashmap() {
         if (road.type != Model::Road::Type::Footway) {
             for (int node_idx : Ways()[road.way].nodes) {
                 // for each node in this road
-                if (node_to_road.find(node_idx) == node_to_road.end()) {
+                if (!node_to_road.count(node_idx)) {
                     node_to_road[node_idx] = std::vector<const Model::Road *> ();
                 }
                 // the road that passes through the node

@@ -40,7 +40,7 @@ float GetFloat() {
         stringstream converter(input);
 
         float output = 0;
-        if (converter >> output) {
+        if (converter >> output && output >= 0 && output <= 100) {
             char remaining;
             if (converter >> remaining) {
                 cout << "Unexpected character(s): " << remaining << endl;
@@ -48,7 +48,7 @@ float GetFloat() {
                 return output;
             }
         } else {
-            cout << "a float number is required." << endl;
+            cout << "a float number(0-100) is required." << endl;
             cout << "Retry: " << endl;
         }
     }    
