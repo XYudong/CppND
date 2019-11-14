@@ -41,7 +41,7 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 
     current_node->FindNeighbors();
 
-    for (auto& node_pt : current_node->neighbors) {
+    for (RouteModel::Node*& node_pt : current_node->neighbors) {
         if (!node_pt->visited) {
             node_pt->visited = true;
             node_pt->parent = current_node;
@@ -49,7 +49,7 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
             node_pt->g_value = current_node->g_value + node_pt->distance(*current_node);
             node_pt->h_value = CalculateHValue(node_pt);
 
-            open_list.push_back(node_pt);
+            open_list.push(node_pt);
         }
     }
 }
@@ -62,15 +62,13 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 // - Remove that node from the open_list.
 // - Return the pointer.
 
-bool RoutePlanner::Compare(RouteModel::Node*& lhs, RouteModel::Node*& rhs) {
+bool RoutePlanner::Comparison::operator()(const RouteModel::Node* lhs, const RouteModel::Node* rhs) {
         return lhs->g_value + lhs->h_value > rhs->g_value + rhs->h_value;
 }
 
 RouteModel::Node *RoutePlanner::NextNode() {
-    sort(open_list.begin(), open_list.end(), RoutePlanner::Compare);
-
-    RouteModel::Node* node_pt = open_list.back();
-    open_list.pop_back();
+    RouteModel::Node* node_pt = open_list.top();
+    open_list.pop();
 
     return node_pt;
 }
