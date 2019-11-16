@@ -63,6 +63,7 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 // - Return the pointer.
 
 bool RoutePlanner::Compare(RouteModel::Node*& lhs, RouteModel::Node*& rhs) {
+        // descending order
         return lhs->g_value + lhs->h_value > rhs->g_value + rhs->h_value;
 }
 
