@@ -62,13 +62,13 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 // - Remove that node from the open_list.
 // - Return the pointer.
 
-bool RoutePlanner::Compare(RouteModel::Node*& lhs, RouteModel::Node*& rhs) {
-        // descending order
-        return lhs->g_value + lhs->h_value > rhs->g_value + rhs->h_value;
-}
-
 RouteModel::Node *RoutePlanner::NextNode() {
-    sort(open_list.begin(), open_list.end(), RoutePlanner::Compare);
+    sort(open_list.begin(), open_list.end(), 
+        [](const auto& lhs, const auto& rhs) {
+            // descending order
+            return lhs->g_value + lhs->h_value > rhs->g_value + rhs->h_value;
+        }
+    );
 
     RouteModel::Node* node_pt = open_list.back();
     open_list.pop_back();

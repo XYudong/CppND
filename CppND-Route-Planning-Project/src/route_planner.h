@@ -28,8 +28,6 @@ class RoutePlanner {
 
     float distance = 0.0f;
     RouteModel &m_Model;
-
-    static bool Compare(RouteModel::Node*& lhs, RouteModel::Node*& rhs);
 };
 
 #endif
