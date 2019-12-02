@@ -3,10 +3,15 @@
 
 class Processor {
  public:
-  float Utilization();  // TODO: See src/processor.cpp
+  Processor();
+  float Utilization();  // Done: See src/processor.cpp
 
-  // TODO: Declare any necessary private members
+  // Done: Declare any necessary private members
  private:
+  // aggregate processor information
+  int init_user_, init_nice_, init_system_, init_idle_, init_iowait_,
+   init_irq_, init_softirq_, init_steal_, init_guest_, init_guest_nice_;
+  int total_init_idle_, total_init_nonidle_;
 };
 
 #endif
