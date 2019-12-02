@@ -64,7 +64,7 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 
 RouteModel::Node *RoutePlanner::NextNode() {
     sort(open_list.begin(), open_list.end(), 
-        [](const auto& lhs, const auto& rhs) {
+        [](RouteModel::Node const * const lhs, RouteModel::Node const * const rhs) {
             // descending order
             return lhs->g_value + lhs->h_value > rhs->g_value + rhs->h_value;
         }
