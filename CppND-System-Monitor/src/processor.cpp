@@ -28,31 +28,33 @@ Processor::Processor() {
   }
 }
 
-// TODO: Return the aggregate CPU utilization
+// Done: Return the aggregate CPU utilization
 float Processor::Utilization() { 
   // simplified version, i.e. relative to the moment the object is initialized
   int user, nice, system, idle, iowait,
    irq, softirq, steal, guest, guest_nice;
   string line;
-  string cpu_name = "";
+  string cpu_name;
+
   std::ifstream file_stream(LinuxParser::kProcDirectory + LinuxParser::kStatFilename);
   if (file_stream.is_open()) {
     if (std::getline(file_stream, line)) {
       std::istringstream line_stream(line);
-      line_stream >> cpu_name;
-      if (cpu_name == "cpu") {
+      
+      if (line_stream >> cpu_name && cpu_name == "cpu") {
         line_stream >> user >> nice >> system >> idle >> iowait
          >> irq >> softirq >> steal >> guest >> guest_nice;
+
+        // reference: https://stackoverflow.com/questions/23367857/accurate-calculation-of-cpu-usage-given-in-percentage-in-linux
+        int init_total = total_init_nonidle_ + total_init_idle_;
+        int total_idle = idle + iowait;
+        int total = total_idle + user + nice + system + irq + softirq + steal;
+
+        int diff_total = total - init_total;
+        int diff_idle = total_idle - total_init_idle_;
+
+        return (diff_total - diff_idle) / static_cast<float>(diff_total);
       }
-
-      int init_total = total_init_nonidle_ + total_init_idle_;
-      int total_idle = idle + iowait;
-      int total = total_idle + user + nice + system + irq + softirq + steal;
-
-      int diff_total = total - init_total;
-      int diff_idle = total_idle - total_init_idle_;
-
-      return (diff_total - diff_idle) / static_cast<float>(diff_total);
     }
   }
   

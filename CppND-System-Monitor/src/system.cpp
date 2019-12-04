@@ -1,15 +1,16 @@
 #include <unistd.h>
 #include <cstddef>
-#include <set>
+#include <unordered_set>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #include "linux_parser.h"
 #include "process.h"
 #include "processor.h"
 #include "system.h"
 
-using std::set;
+using std::unordered_set;
 using std::size_t;
 using std::string;
 using std::vector;
@@ -20,15 +21,24 @@ Processor& System::Cpu() { return cpu_; }
 // TODO: Return a container composed of the system's processes
 vector<Process>& System::Processes() { 
     vector<int> pids = LinuxParser::Pids();
-    this->processes_ = {};                   // TODO: seems not efficient
-    this->processes_.reserve(pids.size());
 
-    for (const int& pid : pids) {
-        string cmd = LinuxParser::Command(pid);
-        string user = LinuxParser::User(pid);
-        processes_.push_back(Process(pid, user, cmd));
+    this->processes_.reserve(pids.size());
+    
+    // add new processes
+    for (int const & pid : pids) {
+        if (pid_set_.insert(pid).second) {
+            string cmd = LinuxParser::Command(pid);
+            string user = LinuxParser::User(pid);
+            processes_.emplace_back(pid, cmd);
+        }
     }
-    return processes_;    
+
+    // update cpu utilization of each process
+    for (Process& process : processes_) {
+        process.CpuUtilization();
+    }
+    std::sort(processes_.begin(), processes_.end());
+    return processes_;
 }
 
 // Return the system's kernel identifier (string)

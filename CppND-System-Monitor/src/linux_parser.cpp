@@ -108,6 +108,7 @@ long LinuxParser::UpTime() {
   } else {
     std::cout << "Failed to open: " + kProcDirectory + kUptimeFilename << std::endl;
   }
+  
   return seconds;
 }
 
@@ -124,8 +125,11 @@ long LinuxParser::ActiveJiffies() { return 0; }
 // TODO: Read and return the number of idle jiffies for the system
 long LinuxParser::IdleJiffies() { return 0; }
 
-// TODO: Read and return CPU utilization
-vector<string> LinuxParser::CpuUtilization() { return {}; }
+// Done: Read and return CPU utilization
+vector<string> LinuxParser::CpuUtilization() { 
+  // Done in Processor.cpp
+  return {};
+}
 
 // Read and return the total number of processes
 int LinuxParser::TotalProcesses() { 
@@ -165,7 +169,7 @@ int LinuxParser::RunningProcesses() {
   return 0;
 }
 
-// TODO: Read and return the command associated with a process
+// Done: Read and return the command associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Command(int pid) {
   string line;
@@ -178,7 +182,7 @@ string LinuxParser::Command(int pid) {
   return string();
 }
 
-// TODO: Read and return the memory used by a process
+// Done: Read and return the memory used by a process
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Ram(int pid) { 
   string line;
@@ -198,7 +202,7 @@ string LinuxParser::Ram(int pid) {
   return string();
 }
 
-// TODO: Read and return the user ID associated with a process
+// Done: Read and return the user ID associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Uid(int pid) {
   string line;
@@ -217,7 +221,7 @@ string LinuxParser::Uid(int pid) {
   return string();
 }
 
-// TODO: Read and return the user associated with a process
+// Done: Read and return the user associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::User(int pid) {
   string line;
@@ -254,10 +258,8 @@ long LinuxParser::UpTime(int pid) {
         }
       }
 
-      // TODO: bug, unchanged clock_ticks ...
       if (line_stream >> clock_ticks) {
-        return clock_ticks;
-        // return clock_ticks / sysconf(_SC_CLK_TCK);
+        return UpTime() - clock_ticks / sysconf(_SC_CLK_TCK);    // convert to seconds
       }
     }
   }
