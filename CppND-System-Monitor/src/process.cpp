@@ -16,7 +16,7 @@ Process::Process(int pid, string cmd) : pid_(pid), command_(cmd) {}
 // Done: Return this process's ID
 int Process::Pid() const { return pid_; }
 
-// TODO: Return this process's CPU utilization
+// Done: Update and Return this process's CPU utilization
 float Process::CpuUtilization() { 
   string line;
   string temp;
