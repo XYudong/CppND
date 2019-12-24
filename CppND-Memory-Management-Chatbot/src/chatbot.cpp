@@ -68,6 +68,7 @@ ChatBot::ChatBot(ChatBot&& source) {
 
     _image = std::move(source._image);
     _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _rootNode = source._rootNode;
 
     source._image = NULL;
@@ -88,6 +89,7 @@ ChatBot& ChatBot::operator= (ChatBot&& rhs) {
     // }
     _image = std::move(rhs._image);
     _chatLogic = rhs._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _rootNode = rhs._rootNode;
 
     rhs._image = NULL;
@@ -136,7 +138,7 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
 
 void ChatBot::SetCurrentNode(GraphNode *node)
 {
-    _chatLogic->SetChatbotHandle(this);
+    // _chatLogic->SetChatbotHandle(this);
     
     // update pointer to current node
     _currentNode = node;
