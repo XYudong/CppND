@@ -32,7 +32,7 @@ void GraphNode::AddEdgeToParentNode(GraphEdge *edge)
     _parentEdges.push_back(edge);
 }
 
-void GraphNode::AddEdgeToChildNode(GraphEdge *edge)
+void GraphNode::AddEdgeToChildNode(GraphEdge* edge)
 {
     _childEdges.emplace_back(edge);
 }
