@@ -27,35 +27,10 @@ ChatLogic::ChatLogic()
     //// EOF STUDENT CODE
 }
 
-// ChatLogic::ChatLogic(ChatLogic&& source) {
-//     // TODO
-// }
-
 ChatLogic::~ChatLogic()
 {
     //// STUDENT CODE
     ////
-
-    // delete chatbot instance
-    // if (_chatBot != nullptr) {
-    //     delete _chatBot;
-    // }
-    // std::cout << &_chatBot << std::endl;    // on heap
-
-    // int a = 0;  // on stack
-    // std::cout << &a << std::endl;
-    
-    // delete all nodes
-    // for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
-    // {
-    //     delete *it;
-    // }
-
-    // delete all edges
-    // for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
-    // {
-    //     delete *it;
-    // }
 
     ////
     //// EOF STUDENT CODE
@@ -180,7 +155,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 
                             // store reference in child node and parent node
                             (*childNode)->AddEdgeToParentNode(edge.get());
-                            (*parentNode)->AddEdgeToChildNode(edge.release());
+                            (*parentNode)->AddEdgeToChildNode(std::move(edge));
                         }
 
                         ////

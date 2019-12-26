@@ -13,11 +13,6 @@ GraphNode::~GraphNode()
     //// STUDENT CODE
     ////
 
-    // if (_chatBot != nullptr) {
-    //     // std::cout << "delete _chatBot" << std::endl;
-    //     delete _chatBot;
-    // } 
-
     ////
     //// EOF STUDENT CODE
 }
@@ -32,9 +27,10 @@ void GraphNode::AddEdgeToParentNode(GraphEdge *edge)
     _parentEdges.push_back(edge);
 }
 
-void GraphNode::AddEdgeToChildNode(GraphEdge* edge)
+void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge)
 {
-    _childEdges.emplace_back(edge);
+    // here, clearer semantics than taking a raw pointer as function parameter
+    _childEdges.push_back(std::move(edge));
 }
 
 //// STUDENT CODE
@@ -42,7 +38,6 @@ void GraphNode::AddEdgeToChildNode(GraphEdge* edge)
 void GraphNode::MoveChatbotHere(ChatBot chatbot)
 {
     _chatBot = std::move(chatbot);
-    // std::cout << "inside MoveChatbotHere" << std::endl;
     _chatBot.SetCurrentNode(this);
 }
 

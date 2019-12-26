@@ -45,7 +45,8 @@ public:
     // proprietary functions
     void AddToken(std::string token); // add answers to list
     void AddEdgeToParentNode(GraphEdge *edge);
-    void AddEdgeToChildNode(GraphEdge* edge);
+    void AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge);   
+    // taking unique_ptr by value indicates the semantics of transferring ownership of the pointer 
 
     //// STUDENT CODE
     ////

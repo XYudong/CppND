@@ -34,13 +34,6 @@ ChatBot::~ChatBot()
 {
     std::cout << "ChatBot Destructor" << std::endl;
 
-    // deallocate heap memory
-    // if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
-    // {
-    //     std::cout << "--delete _image" << std::endl;
-    //     delete _image;
-    //     _image = NULL;
-    // }
 }
 
 //// STUDENT CODE
@@ -60,10 +53,6 @@ ChatBot& ChatBot::operator= (const ChatBot& rhs) {
         return *this;
     }
 
-    // if (_image != NULL) {
-    //     delete _image;
-    //     _image = NULL;
-    // }
     _image = std::make_unique<wxBitmap>(*(rhs._image));
     _chatLogic = rhs._chatLogic;
     _rootNode = rhs._rootNode;
@@ -76,7 +65,7 @@ ChatBot::ChatBot(ChatBot&& source) {
 
     _image = std::move(source._image);
     _chatLogic = source._chatLogic;
-    _chatLogic->SetChatbotHandle(this);
+    _chatLogic->SetChatbotHandle(this);     // important
     _rootNode = source._rootNode;
 
     source._image = NULL;
@@ -91,10 +80,6 @@ ChatBot& ChatBot::operator= (ChatBot&& rhs) {
         return *this;
     }
 
-    // if (_image != NULL) {
-    //     delete _image;
-    //     _image = NULL;
-    // }
     _image = std::move(rhs._image);
     _chatLogic = rhs._chatLogic;
     _chatLogic->SetChatbotHandle(this);
@@ -145,9 +130,7 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
 }
 
 void ChatBot::SetCurrentNode(GraphNode *node)
-{
-    // _chatLogic->SetChatbotHandle(this);
-    
+{    
     // update pointer to current node
     _currentNode = node;
 
@@ -159,7 +142,6 @@ void ChatBot::SetCurrentNode(GraphNode *node)
 
     // send selected node answer to user
     _chatLogic->SendMessageToUser(answer);
-    // std::cout << "inside ChatBot::SetCurrentNode" << std::endl;
 }
 
 int ChatBot::ComputeLevenshteinDistance(std::string s1, std::string s2)

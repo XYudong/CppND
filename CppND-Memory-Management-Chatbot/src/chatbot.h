@@ -30,7 +30,7 @@ public:
 
     //// STUDENT CODE
     ////
-    //copy constructor
+    // copy constructor
     ChatBot(const ChatBot& source);
 
     // copy asssignment operator
