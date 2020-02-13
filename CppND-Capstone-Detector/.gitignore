@@ -4,6 +4,8 @@
 draw.cpp
 test.cpp
 build/
-model/
+models/
 bin/
 lib/
+data/
+.vscode/
