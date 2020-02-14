@@ -1,5 +1,7 @@
 #include "text_detection.h"
 
+#include <iostream>
+
 void TextDetector::run() {
   _mean_val = cv::Scalar(123.68, 116.78, 103.94);
 
@@ -24,7 +26,7 @@ void TextDetector::run() {
     
     double tt = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
     float fps = 1 / tt;
-    cv::putText(_frame, cv::format("OpenCV EAST; FPS = %.2f",fps), cv::Point(10, 50), cv::FONT_HERSHEY_SIMPLEX, 1.4, cv::Scalar(0, 0, 255), 4);
+    cv::putText(_frame, cv::format("OpenCV EAST; FPS = %.2f", fps), cv::Point(10, 50), cv::FONT_HERSHEY_SIMPLEX, 1.2, cv::Scalar(0, 0, 255), 4);
     cv::imshow( "OpenCV - EAST Text Detection", _frame );
   }
   cv::destroyAllWindows();
@@ -40,12 +42,19 @@ void TextDetector::detect() {
 
   cv::dnn::blobFromImage(_frame, blob, _in_scale_factor, cv::Size(_in_width, _in_height), _mean_val, true, false);
   
+  // double t = cv::getTickCount();
+
   std::vector<cv::Mat> output;
   _net.setInput(blob);
   _net.forward(output, outputLayers);
 
+  // double tt = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
+  // std::cout << "inference time: " << tt << std::endl;
+
   cv::Mat scores = output[0];
   cv::Mat geometry = output[1];
+
+  // t = cv::getTickCount();
 
   // Decode predicted bounding boxes.
   std::vector<cv::RotatedRect> boxes;
@@ -69,6 +78,22 @@ void TextDetector::detect() {
     }
     for (int j = 0; j < 4; ++j)
         line(_frame, vertices[j], vertices[(j + 1) % 4], cv::Scalar(0, 255, 0), 2, cv::LINE_AA);
+  }
+
+  // tt = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
+  // std::cout << "post-processing time: " << tt << std::endl;
+}
+
+
+void TextDetector::setInSize(int h, int w) {
+  if (h % 32 == 0 && w % 32 == 0) {
+    _in_height = h;
+    _in_width = w;
+  } else {
+    _in_height = 320;
+    _in_width = 320;
+    std::cerr << "incompatiable input size: " << h << ", " << w << std::endl;
+    std::cerr << "using default size: " << _in_height << ", " << _in_width << std::endl;
   }
 }
 

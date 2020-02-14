@@ -17,7 +17,7 @@ public:
   virtual void run() = 0;
   virtual void detect() = 0;
 
-  void setInSize(int height, int width);
+  virtual void setInSize(int height, int width);
 
 protected:
   std::string _input = "";

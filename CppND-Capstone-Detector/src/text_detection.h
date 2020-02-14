@@ -7,8 +7,12 @@
 
 class TextDetector : public Detector {
 public:
+  TextDetector() : Detector() {}
+  TextDetector(std::string s) : Detector(s) {}
+
   void run() override;
   void detect() override;
+  void setInSize(int height, int width) override;
 
 private:
   float _nms_threshold = 0.4;

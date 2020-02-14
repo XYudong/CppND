@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <memory>
 #include <opencv2/opencv.hpp>
 
 #include "face_detection.h"
@@ -12,19 +13,20 @@ int main() {
 
   std::string target;
   while (target != "face" && target != "text") {
-    std::cout << "face? Or text?" << std::endl;
+    std::cout << "Please enter your choice(face, or text): ";
     std::getline(std::cin, target);
   }
 
+  std::unique_ptr<Detector> det;
   if (target == "face") {
-    FaceDetector face_det;
-    face_det.setInSize(300, 300);
-    face_det.run();
+    det = std::unique_ptr<Detector>(new FaceDetector);
+    det->setInSize(300, 300);
   } else {
-    TextDetector text_det;
-    text_det.setInSize(320, 320);
-    text_det.run();
+    det = std::unique_ptr<Detector>(new TextDetector);
+    det->setInSize(320, 320);
   }
+
+  det->run();
 
   return 0;
 }

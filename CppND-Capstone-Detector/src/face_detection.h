@@ -3,10 +3,15 @@
 
 #include "detection.h"
 
+#include <string>
+
 class FaceDetector : public Detector {
 public:
-  void detect() override;
+  FaceDetector() : Detector() {}
+  FaceDetector(std::string s) : Detector(s) {}
+
   void run() override;
+  void detect() override;
 
 private:
   const float _confidenceThreshold = 0.7;
