@@ -11,12 +11,14 @@ int main() {
 
   std::cout << "Hi, what would you like to detect?" << std::endl;
 
+  // user input
   std::string target;
   while (target != "face" && target != "text") {
     std::cout << "Please enter your choice(face, or text): ";
     std::getline(std::cin, target);
   }
 
+  // init network
   std::unique_ptr<Detector> det;
   if (target == "face") {
     det = std::unique_ptr<Detector>(new FaceDetector);
@@ -26,6 +28,7 @@ int main() {
     det->setInSize(320, 320);
   }
 
+  // run
   det->run();
 
   return 0;

@@ -1,5 +1,5 @@
 # CPPND: Capstone: Detector
-
+This project utilizes different trained deep neural networks to detect corresponding targets, like face or text.
 
 ## Dependencies for Running Locally
 * cmake >= 3.7
@@ -17,9 +17,21 @@
 ## Basic Build Instructions
 
 1. Clone this repo.
-2. Make a model directory in the top level directory for trained models: 
-  `mkdir models && cd models`, then, `mkdir east && mkdir opencv_dnn_face`
-3. Download trained models from
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
-4. Run it: `./HelloWorld`.
+4. Make sure your webcam works
+5. Run it: `./HelloWorld`.
+
+## Code Overview
+### src/
+* Base class: **detection.h** - `Detector`
+  * Child class: **face_detection.h** - `FaceDetector`
+  * Child class: **text_detection.h** - `TextDetector`
+* **main.cpp**
+
+### models/
+This folder stores the trained network model files downloaded from websites.
+
+## Expected Output
+* Text
+  ![EAST Text Detection](./result/results.png)

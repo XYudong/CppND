@@ -28,7 +28,7 @@ protected:
 
   int _in_height;
   int _in_width;
-  cv::Scalar _mean_val;
+  cv::Scalar _mean_val;   // mean values for rgb
   float _conf_threshold = 0.5;
   float _in_scale_factor = 1;
 };
